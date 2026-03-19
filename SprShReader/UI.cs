@@ -40,8 +40,4 @@ public class Ui
                  break;
          }
      }
-     public static void ParseWarning(string input)
-     {
-          AnsiConsole.MarkupLine($"[bold red]Warning:[/] Unable to parse '{input}' as an integer. Please Check the CSV file.");
-     }
 }
