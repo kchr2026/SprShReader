@@ -3,7 +3,7 @@ using Spectre.Console;
 public class Ui
 {
     private List<Digimon> _digimons;
-
+    private DataReader reader = new DataReader();
     public void UI(List<Digimon> digimons)
     {
         _digimons = digimons;
@@ -23,9 +23,10 @@ public class Ui
              case "Search for digimon":
              {
                  userInput = AnsiConsole.Ask<string>("[green]What digimon would you like to see?[/]");
-                     var results = _digimons
-                         .Where(d => d.Name == userInput)
-                         .Select(d => new { d.Name, d.Hp, d.Atk });
+                     // var results = _digimons
+                     //     .Where(d => d.Name == userInput)
+                     //     .Select(d => new { d.Name, d.Hp, d.Atk });
+                     var results = reader.Reader(_digimons,userInput);
                      if (!results.Any())
                          Console.WriteLine($"No Digimon found with a name given {userInput}");
                      else

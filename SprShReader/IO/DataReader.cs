@@ -1,6 +1,6 @@
 namespace SprShReader;
 
-public class ReaderF
+public class DataReader
 {
     public List<Digimon> ReaderFs(string path)
     {
@@ -33,6 +33,15 @@ public class ReaderF
             digimons.Add(digimon);
         }
 
+        return digimons;
+    }
+    public List<Digimon> Reader(List<Digimon> digimons, string userInput)
+    {
+        var results = digimons
+            .Where(d => d.Name == userInput)
+            .Select(d => new { d.Name, d.Hp, d.Atk });
+        foreach (var d in results)
+            Console.WriteLine($"{d.Name} | HP: {d.Hp} | ATK: {d.Atk}");
         return digimons;
     }
 }
