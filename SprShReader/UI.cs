@@ -16,42 +16,25 @@ public class Ui
          var choice_input = AnsiConsole.Prompt(
          new SelectionPrompt<string>()
              .Title("[green]What would you like to see?[/]")
-             .AddChoices("Search for digimon", "Find digimon by min attack", "Option2", "Option2", "Exit"));
+             .AddChoices("Search for digimon", "Find digimon by min attack", "Find digimon by min HP", "Exit"));
 
          switch (choice_input)
          {
              case "Search for digimon":
              {
                  userInput = AnsiConsole.Ask<string>("[green]What digimon would you like to see?[/]");
-                     // var results = _digimons
-                     //     .Where(d => d.Name == userInput)
-                     //     .Select(d => new { d.Name, d.Hp, d.Atk });
-                     var results = reader.Reader(_digimons,userInput);
-                     if (!results.Any())
-                         Console.WriteLine($"No Digimon found with a name given {userInput}");
-                     else
-                         foreach (var d in results)
-                             Console.WriteLine($"{d.Name} | HP: {d.Hp} | ATK: {d.Atk}");
+                     reader.Reader(_digimons, choice_input,userInput);
                  break;
              }
              case "Find digimon by min attack":
              {
-                 userInput = AnsiConsole.Ask<string>("[green]What digimon would you like to see?[/]");
-                 var results = _digimons
-                     .Where(d => d.Atk >= int.Parse(userInput))
-                     .Select(d => new { d.Name, d.Hp, d.Atk });
-
-                 if (!results.Any())
-                     Console.WriteLine($"No Digimon found with a minimum ATK of {userInput}");
-                 else
-                     foreach (var d in results)
-                         Console.WriteLine($"{d.Name} | HP: {d.Hp} | ATK: {d.Atk}");
-
+                 userInput = AnsiConsole.Ask<string>("[green]Enter the desired minimum attack[/]");
+                 reader.Reader(_digimons, choice_input,userInput);
                  break;
              }
-             case "Multiplication":
-                 break;
-             case "Division":
+             case "Find digimon by min HP":
+                 userInput = AnsiConsole.Ask<string>("[green]Enter the desired minimum HP[/]");
+                 reader.Reader(_digimons, choice_input,userInput);
                  break;
              case "Exit" :
                  break;

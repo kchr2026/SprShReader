@@ -9,25 +9,29 @@ public class DataReader
 
         foreach (string line in File.ReadLines(path))
         {
-            if (firstLine) { firstLine = false; continue; } // skip header row
+            if (firstLine)
+            {
+                firstLine = false;
+                continue;
+            } // skip header row
 
             string[] col = line.Split(',');
 
             var digimon = new Digimon
             {
-                Number     = int.Parse(col[0]),  // Number
-                Name       = col[1],             // Digimon
-                Stage      = col[2],             // Stage
-                Type       = col[3],             // Type
-                Attribute  = col[4],             // Attribute
-                Memory     = int.Parse(col[5]),
-                EquipSlots = int.Parse(col[6]),
-                Hp         = int.Parse(col[7]),
-                Sp         = int.Parse(col[8]),
-                Atk        = int.Parse(col[9]),
-                Def        = int.Parse(col[10]),
-                Int        = int.Parse(col[11]),
-                Spd        = int.Parse(col[12]),
+                Number = int.Parse(col[0]),     // index Number of digimon
+                Name = col[1],                  // Digimon
+                Stage = col[2],                 // Stage
+                Type = col[3],                  // Type
+                Attribute = col[4],             // Attribute
+                Memory = int.Parse(col[5]),     // Memory
+                EquipSlots = int.Parse(col[6]), // EquipSlot
+                Hp = int.Parse(col[7]),         // Health points
+                Sp = int.Parse(col[8]),         // Stamina Points
+                Atk = int.Parse(col[9]),        // Attack
+                Def = int.Parse(col[10]),       // Defense
+                Int = int.Parse(col[11]),       // Intelligence
+                Spd = int.Parse(col[12]),       // Speed
             };
 
             digimons.Add(digimon);
@@ -35,13 +39,21 @@ public class DataReader
 
         return digimons;
     }
-    public List<Digimon> Reader(List<Digimon> digimons, string userInput)
+
+    public void Reader(List<Digimon> digimons, string filterType, string userInput)
     {
-        var results = digimons
-            .Where(d => d.Name == userInput)
-            .Select(d => new { d.Name, d.Hp, d.Atk });
-        foreach (var d in results)
-            Console.WriteLine($"{d.Name} | HP: {d.Hp} | ATK: {d.Atk}");
-        return digimons;
+        var results = filterType switch
+        {
+            "Search for digimon"   => digimons.Where(d => d.Name == userInput),
+            "Find digimon by min attack" => digimons.Where(d => d.Atk >= int.Parse(userInput)),
+            "Find digimon by min HP"  => digimons.Where(d => d.Hp >= int.Parse(userInput)),
+            _        => Enumerable.Empty<Digimon>()
+        };
+
+        if (!results.Any())
+            Console.WriteLine("No Digimon found.");
+        else
+            foreach (var d in results)
+                Console.WriteLine($"{d.Name} | HP: {d.Hp} | ATK: {d.Atk}");
     }
 }
